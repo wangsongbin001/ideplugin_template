@@ -7,6 +7,8 @@
     <!-- https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
 
+    <depends>com.intellij.modules.java</depends>
+
     <extensions defaultExtensionNs="com.intellij">
         <applicationService serviceImplementation="com.github.wangsongbin001.ideplugindemo.services.MyApplicationService"/>
         <projectService serviceImplementation="com.github.wangsongbin001.ideplugindemo.services.MyProjectService"/>
@@ -16,4 +18,11 @@
         <listener class="com.github.wangsongbin001.ideplugindemo.listeners.MyProjectManagerListener"
                   topic="com.intellij.openapi.project.ProjectManagerListener"/>
     </applicationListeners>
+    <actions>
+        <group id="MyPlugin.SampleMenu" text="ISC" description="ISC menu">
+            <add-to-group group-id="MainMenu" anchor="last"/>
+            <action id="actions.PupupDialogAction" class="actions.PupupDialogAction" text="show dialog"
+                    description="show dialog"/>
+        </group>
+    </actions>
 </idea-plugin>
