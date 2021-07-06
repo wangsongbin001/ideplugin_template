@@ -16,7 +16,7 @@ plugins {
     id("org.jetbrains.changelog") version "1.1.2"
     // detekt linter - read more: https://detekt.github.io/detekt/gradle.html
     id("io.gitlab.arturbosch.detekt") version "1.16.0"
-    // ktlint linter - read more: https://github.com/JLLeitschuh/ktlint-gradle
+//    // ktlint linter - read more: https://github.com/JLLeitschuh/ktlint-gradle
     id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
 }
 
@@ -30,6 +30,13 @@ repositories {
 }
 dependencies {
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.16.0")
+//    implementation("com.alibaba:fastjson:1.2.61")
+    implementation("com.google.code.gson:gson:2.6.2")
+    implementation("org.apache.httpcomponents:httpcore:4.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
+//    implementation("org.ajoberstar:gradle-git:0.7.0")
+    implementation("org.eclipse.jgit:org.eclipse.jgit:5.6.0.201912101111-r")
+    implementation("org.eclipse.jgit:org.eclipse.jgit.archive:5.6.0.201912101111-r")
 }
 
 // Configure gradle-intellij-plugin plugin.

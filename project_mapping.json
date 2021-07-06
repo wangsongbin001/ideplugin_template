@@ -1,0 +1,28 @@
+{
+  "group_map": [{
+    "name": "Community",
+    "remote": "git@pkg.poizon.com:duapp/android/module/duapp_community.git"
+  },
+    {
+      "name": "Mall",
+      "remote": "git@pkg.poizon.com:duapp/android/module/duapp_mall.git"
+    },
+    {
+      "name": "Account",
+      "remote": "git@pkg.poizon.com:duapp/android/module/duapp_user_service.git"
+    },
+    {
+      "name": "Common",
+      "remote": "git@pkg.poizon.com:duapp/android/module/duapp_base.git"
+    }
+  ],
+  "component_map": [{
+    "name": "com.shizhuang.duapp.libs:arouter-api",
+    "remote": "git@pkg.poizon.com:duapp/android/components/arouter.git"
+  },
+    {
+      "name": "com.shizhuang.duapp.libs:arouter-compiler",
+      "remote": "git@pkg.poizon.com:duapp/android/components/arouter.git"
+    }
+  ]
+}

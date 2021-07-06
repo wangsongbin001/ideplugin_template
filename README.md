@@ -38,3 +38,17 @@ To keep everything working, do not remove `<!-- ... -->` sections.
 Plugin based on the [IntelliJ Platform Plugin Template][template].
 
 [template]: https://github.com/JetBrains/intellij-platform-plugin-template
+
+########  使用过程中问题汇总  #########
+问题：Cannot find builtin plugin null for IDE
+方案：https://blog.jetbrains.com/platform/2019/06/java-functionality-extracted-as-a-plugin/?_ga=2.126829453.1824097938.1619525855-342792345.1618224593
+
+问题：开发插件如何利用log调试
+方案：
+1，System.out.println("PupupDialogAction actionPerformed"); 
+显示在help-> show log in finder -> ide.log文件中
+2，使用com.intellij.openapi.diagnostic.Logger
+
+
+
+

@@ -5,14 +5,26 @@
 
     <!-- Product and plugin compatibility requirements -->
     <!-- https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+<!--    <depends>com.intellij.modules.androidstudio</depends>-->
+    <depends>org.jetbrains.android</depends>
+    <depends>org.jetbrains.kotlin</depends>
     <depends>com.intellij.modules.platform</depends>
-
     <depends>com.intellij.modules.java</depends>
 
     <extensions defaultExtensionNs="com.intellij">
+        <postStartupActivity implementation="service.ISCStartUp"/>
         <applicationService serviceImplementation="com.github.wangsongbin001.ideplugindemo.services.MyApplicationService"/>
         <projectService serviceImplementation="com.github.wangsongbin001.ideplugindemo.services.MyProjectService"/>
+
+        <internalFileTemplate name="GenerateFileByString"/>
     </extensions>
+
+    <application-components>
+        <component>
+            <interface-class> com.intellij.openapi.components.ProjectComponent</interface-class>
+            <implementation-class>component.PComponent</implementation-class>
+        </component>
+    </application-components>
 
     <applicationListeners>
         <listener class="com.github.wangsongbin001.ideplugindemo.listeners.MyProjectManagerListener"
@@ -21,8 +33,18 @@
     <actions>
         <group id="MyPlugin.SampleMenu" text="ISC" description="ISC menu">
             <add-to-group group-id="MainMenu" anchor="last"/>
-            <action id="actions.PupupDialogAction" class="actions.PupupDialogAction" text="show dialog"
+            <action id="isc.actions.PupupDialogAction" class="actions.PupupDialogAction" text="show dialog"
                     description="show dialog"/>
+            <action id="isc.actions.CreateJavaBeanByStringAction" class="actions.CreateJavaBeanByStringAction" text="createJavaBeanByString"
+                    description="createJavaBeanByString">
+                <add-to-group group-id="NewGroup" anchor="first"/>
+            </action>
+            <action id="isc.actions.TestAction" class="actions.TestAction" text="Test" description="Test"/>
         </group>
+        <action id="actions.AutoFindViewById" class="actions.AutoFindViewById" text="autoFindViewById"
+                description="autoFindViewById">
+            <add-to-group group-id="GenerateGroup" anchor="first"/>
+            <add-to-group group-id="BasicEditorPopupMenu" anchor="first"/>
+        </action>
     </actions>
 </idea-plugin>
