@@ -99,11 +99,11 @@ public class ViewFieldMethodCreator extends Simple {
 //        @OnClick(R.id.tvText)
 //        private void tvTextClick(TextView tvText) {
 //        }
-//        StringBuilder methodBuilder=new StringBuilder();
-//        methodBuilder.append("@OnClick("+element.getFullID()+")\n");
-//        methodBuilder.append("public void "+methodName+"("+element.getName()+" "
-//                +getClickMethodName(element)+"){");
-//        methodBuilder.append("\n}");
+        StringBuilder methodBuilder=new StringBuilder();
+        methodBuilder.append("@OnClick("+element.getFullID()+")\n");
+        methodBuilder.append("public void "+methodName+"("+element.getName()+" "
+                +getClickMethodName(element)+"){");
+        methodBuilder.append("\n}");
         //创建onclick方法
 //        mClass.add(mFactory.createMethodFromText(methodBuilder.toString(),mClass));
     }

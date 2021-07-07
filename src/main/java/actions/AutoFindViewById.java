@@ -1,6 +1,7 @@
 package actions;
 
 import actions.bean.MElement;
+import android.telephony.ims.feature.CapabilityChangeRequest;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
@@ -110,18 +111,21 @@ public class AutoFindViewById extends AnAction {
         AutoBindingDialog mDialog = new AutoBindingDialog(project, elements, new AutoBindingDialog.ConfirmListener() {
             @Override
             public void onConfirm(@NotNull List<MElement> elements) {
-                generateFields(project, elements, psiClass);
+                //generateFields(project, elements, psiClass);
+                WriteCommandAction.runWriteCommandAction(project, new Runnable() {
+                    @Override
+                    public void run() {
+                        //生成属性
+                        generateFields(project, elements, psiClass);
+                        //生成onClik文件
+                        generateOnClickMethod(project, elements, psiClass);
+                    }
+                });
             }
         });
         mDialog.show();
 
-//        WriteCommandAction.runWriteCommandAction(project, new Runnable() {
-//            @Override
-//            public void run() {
-//                //生成属性
-//                generateFields(project, elements, psiClass);
-//            }
-//        });
+
     }
 
     /**
@@ -133,20 +137,60 @@ public class AutoFindViewById extends AnAction {
         // 获取Factory
         PsiElementFactory mFactory = JavaPsiFacade.getElementFactory(project);
         PsiField field;
+
         for (MElement element : mElements) {
             field = psiClass.findFieldByName(element.getFieldName(), false);
-            if(field != null){
+            if (field != null) {
                 LogUtil.log("generateFields " + field.getType().getCanonicalText());
-            }
-            StringBuilder text = new StringBuilder();
-//            text.append("@BindView(" + element.getFullID() + ")\n");
-            text.append("public ");
-            text.append(element.getName() + " ");
-            text.append(element.getFieldName() + ";");
-
-            if (element.isCreateFiled()) {
-                psiClass.add(mFactory.createFieldFromText(text.toString(), psiClass));
+            } else {
+                StringBuilder text = new StringBuilder();
+                //text.append("@BindView(" + element.getFullID() + ")\n");
+                text.append("public ");
+                text.append(element.getName() + " ");
+                text.append(element.getFieldName() + ";");
+                if (element.isCreateFiled()) {
+                    psiClass.add(mFactory.createFieldFromText(text.toString(), psiClass));
+                }
             }
         }
+
+        PsiMethod[] initViews = psiClass.findMethodsByName("initViews", true);
+        if (initViews != null && initViews.length > 0) {
+            return;
+        }
+        StringBuilder method = new StringBuilder();
+        method.append("private void initViews(){ \n");
+        for (MElement element : mElements) {
+            if (element.isCreateFiled()) {
+                method.append(element.getFieldName()).append(" = (" + element.getName() + ")findViewById(R.id.").append(element.getId()).append(");\n");
+            }
+        }
+        method.append("}");
+        psiClass.add(mFactory.createMethodFromText(method.toString(), psiClass));
     }
+
+    /**
+     * 创建监听事件方法
+     */
+    private void generateOnClickMethod(Project project, List<MElement> elements, PsiClass psiClass) {
+        PsiElementFactory mFactory = JavaPsiFacade.getElementFactory(project);
+        PsiMethod[] onClicks = psiClass.findMethodsByName("onClick", false);
+        if (onClicks != null && onClicks.length > 0) {
+            LogUtil.log("generateOnClickMethod" + onClicks[0].getBody());
+            return;
+        }
+        StringBuilder onClick = new StringBuilder();
+        onClick.append("public void onClick(View view){ \n")
+                .append("switch(view.getId()){ \n");
+        for (MElement element : elements) {
+            if (element.isCreateClickMethod()) {
+                onClick.append("case ").append(element.getFullID()).append(":\n")
+                        .append("break;\n");
+            }
+        }
+        onClick.append("default:\n").append("break;\n")
+                .append("}\n").append("}\n");
+        psiClass.add(mFactory.createMethodFromText(onClick.toString(), psiClass));
+    }
+
 }
