@@ -11,7 +11,8 @@ plugins {
     // Kotlin support
     id("org.jetbrains.kotlin.jvm") version "1.4.32"
     // gradle-intellij-plugin - read more: https://github.com/JetBrains/gradle-intellij-plugin
-    id("org.jetbrains.intellij") version "0.7.3"
+//    id("org.jetbrains.intellij") version "0.7.3"
+    id("org.jetbrains.intellij") version "0.6.5"
     // gradle-changelog-plugin - read more: https://github.com/JetBrains/gradle-changelog-plugin
     id("org.jetbrains.changelog") version "1.1.2"
     // detekt linter - read more: https://detekt.github.io/detekt/gradle.html
@@ -26,9 +27,11 @@ version = properties("pluginVersion")
 // Configure project's dependencies
 repositories {
     mavenCentral()
+    mavenLocal()
     jcenter()
 }
 dependencies {
+    //implementation("de.undercouch:gradle-download-task:4.0.2")
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.16.0")
 }
 
@@ -119,4 +122,8 @@ tasks {
         // https://plugins.jetbrains.com/docs/intellij/deployment.html#specifying-a-release-channel
         channels(properties("pluginVersion").split('-').getOrElse(1) { "default" }.split('.').first())
     }
+
+//    runIde {
+//        jbrVersion("jbr-11_0_7b765.65")
+//    }
 }

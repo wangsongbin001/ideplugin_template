@@ -6,6 +6,7 @@
     <!-- Product and plugin compatibility requirements -->
     <!-- https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.java</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <applicationService serviceImplementation="com.github.wangsongbin001.ideplugindemo.services.MyApplicationService"/>
@@ -16,4 +17,12 @@
         <listener class="com.github.wangsongbin001.ideplugindemo.listeners.MyProjectManagerListener"
                   topic="com.intellij.openapi.project.ProjectManagerListener"/>
     </applicationListeners>
+    <actions>
+        <group id="group.pstructrue" text="PManager" description="PStructrue main menu">
+            <action class="com.github.wangsongbin001.ideplugindemo.actions.PManagerAction"
+                    id="action_pmamager"
+                    text="组件管理"/>
+            <add-to-group group-id="MainMenu" anchor="after" relative-to-action="HelpMenu"/>
+        </group>
+    </actions>
 </idea-plugin>
